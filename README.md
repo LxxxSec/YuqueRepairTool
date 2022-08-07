@@ -22,6 +22,7 @@
 
 ```
 python3 YuqueRepairTool.py -h
+
 usage: YuqueRepairTool.py [-h] [-f FILENAME] [-o OUTPUT] [-s SAVE2LOCAL]
 
 options:
@@ -38,7 +39,7 @@ options:
 
 仍使用语雀自带的图床，删除URL后锚点
 
-```python
+```
 python3 YuqueRepairTool.py -f test.md -o new_test.md -s 0
 ```
 
