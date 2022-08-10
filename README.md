@@ -55,7 +55,7 @@ python3 YuqueRepairTool.py -f test.md -o new_test.md -s 1
 ### 全处理模式
 推荐使用，自动下载图片至本地，生成两份文件，一份本地版，一份语雀远程图片版
 ```
-python3 YuqueRepairTool.py -a 1
+python3 YuqueRepairTool.py -f test.md -a 1
 ```
 
 ## TODO
