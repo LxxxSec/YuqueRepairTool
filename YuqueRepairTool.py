@@ -83,6 +83,8 @@ if __name__ == "__main__":
         args.output = "new_" + args.filename
     if not args.save2local:
         args.save2local = 0
+    if args.all != 1:
+        args.all = 0
     if args.all == 1:
         filename = os.path.splitext(args.filename)[0] + "（语雀远程图片版）" + os.path.splitext(args.filename)[1]
         fixYuqueDoc(args.filename, filename, False)
