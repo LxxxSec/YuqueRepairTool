@@ -65,3 +65,5 @@ python3 YuqueRepairTool.py -f test.md -a 1
 ## DONE
 
 - 使用uuid4随机生成图片文件名
+- 增加全处理模式
+
