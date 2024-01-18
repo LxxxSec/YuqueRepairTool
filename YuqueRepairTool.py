@@ -25,7 +25,7 @@ def save2Local(fileContent):
         if url:
             if not os.path.exists("./images"):
                 os.mkdir("./images")
-            lineContent = "![image.png]({})".format(downloadFile(url[0]))
+            lineContent = "\n![image.png]({})\n".format(downloadFile(url[0]))
             outFileContent.append(lineContent)
         else:
             outFileContent.append(line)
@@ -40,7 +40,7 @@ def replaceUrl(fileContent):
             r'http[s]?://cdn.nlark.com(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
             line)
         if url:
-            lineContent = "![image.png]({})".format(url[0])
+            lineContent = "\n![image.png]({})\n".format(url[0])
             outFileContent.append(lineContent)
         else:
             outFileContent.append(line)
