@@ -1,7 +1,5 @@
 import os
 import re
-import argparse
-import logging
 import sys
 import requests
 import uuid
@@ -25,7 +23,8 @@ def save2Local(fileContent):
         if url:
             if not os.path.exists("./images"):
                 os.mkdir("./images")
-            lineContent = "\n![image.png]({})\n".format(downloadFile(url[0]))
+            filename = downloadFile(url[0])
+            lineContent = re.sub(r'!\[image\.png\]\((.*?)\)', f"\n\n![image.png]({filename})\n\n", line)
             outFileContent.append(lineContent)
         else:
             outFileContent.append(line)
@@ -40,7 +39,7 @@ def replaceUrl(fileContent):
             r'http[s]?://cdn.nlark.com(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
             line)
         if url:
-            lineContent = "\n![image.png]({})\n".format(url[0])
+            lineContent = re.sub(r'!\[image\.png\]\((.*?)\)', f"\n\n![image.png]({url[0]})\n\n", line)
             outFileContent.append(lineContent)
         else:
             outFileContent.append(line)
@@ -70,29 +69,12 @@ def fixYuqueDoc(filename, newFilename, isSave2Local):
 
 # 主程序
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--filename", help="待处理文件名，eg: test.md", type=str)
-    parser.add_argument("-o", "--output", help="输出文件名，eg: new_test.md，缺省则命名为new_test.md", type=str)
-    parser.add_argument("-s", "--save2local", help="是否将图片保存至本地，eg: 0，缺省则默认为0不保存，1为保存", type=int)
-    parser.add_argument("-a", "--all", help="是否使用全处理模式，eg: 1，缺省则默认为0，不采用全处理模式", type=int)
-    args = parser.parse_args()
-    if not args.filename:
-        logging.critical("请输入文件名")
-        sys.exit()
-    if not args.output:
-        args.output = "new_" + args.filename
-    if not args.save2local:
-        args.save2local = 0
-    if args.all != 1:
-        args.all = 0
-    if args.all == 1:
-        filename = os.path.splitext(args.filename)[0] + "（语雀远程图片版）" + os.path.splitext(args.filename)[1]
-        fixYuqueDoc(args.filename, filename, False)
-        filename = os.path.splitext(args.filename)[0] + "（本地版）" + os.path.splitext(args.filename)[1]
-        fixYuqueDoc(args.filename, filename, True)
-    else:
-        if args.save2local == 0:
-            fixYuqueDoc(args.filename, args.output, False)
-        else:
-            fixYuqueDoc(args.filename, args.output, True)
+    args = sys.argv
+    if len(args) != 2:
+        print("[+] usage: python3 {} filename.md".format(args[0]))
+        sys.exit(1)
+    filename = os.path.splitext(args[1])[0] + "（语雀远程图片版）" + os.path.splitext(args[1])[1]
+    fixYuqueDoc(args[1], filename, False)
+    filename = os.path.splitext(args[1])[0] + "（本地版）" + os.path.splitext(args[1])[1]
+    fixYuqueDoc(args[1], filename, True)
     print("文档已修复完成！")
